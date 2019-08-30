@@ -225,10 +225,7 @@ func convertBid(gBid gammaBid, mediaType openrtb_ext.BidType) *openrtb.Bid {
 
 func (a *GammaAdapter) MakeBids(internalRequest *openrtb.BidRequest, externalRequest *adapters.RequestData, response *adapters.ResponseData) (*adapters.BidderResponse, []error) {
 	if response.StatusCode == http.StatusNoContent {
-
-		return nil, []error{&errortypes.BadServerResponse{
-			Message: fmt.Sprintf("Unexpected status code: %d. Run with request.debug = 1 for more info", response.StatusCode),
-		}}
+		return nil, nil
 	}
 
 	if response.StatusCode == http.StatusBadRequest {
