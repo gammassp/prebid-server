@@ -87,7 +87,8 @@ func (a *GammaAdapter) makeRequest(request *openrtb.BidRequest, imp openrtb.Imp)
 	thisURI = thisURI + "?id=" + gammaExt.PartnerID
 	thisURI = thisURI + "&zid=" + gammaExt.ZoneID
 	thisURI = thisURI + "&wid=" + gammaExt.WebID
-	thisURI = thisURI + "&bidid=" + imp.ID
+	thisURI = thisURI + "&bidid=" + request.ID
+	thisURI = thisURI + "&impid=" + imp.ID
 	thisURI = thisURI + "&hb=pbmobile"
 	if request.Device != nil {
 		if request.Device.IP != "" {
@@ -256,7 +257,7 @@ func (a *GammaAdapter) MakeBids(internalRequest *openrtb.BidRequest, externalReq
 	errs := make([]error, 0, len(gammaResp.SeatBid[0].Bid))
 	for _, sb := range gammaResp.SeatBid {
 		for i := range sb.Bid {
-			mediaType := getMediaTypeForImp(gammaResp.ID, internalRequest.Imp)
+			mediaType := getMediaTypeForImp(sb.Bid[i].ImpID, internalRequest.Imp)
 			bid := convertBid(sb.Bid[i], mediaType)
 			if bid != nil {
 				bidResponse.Bids = append(bidResponse.Bids, &adapters.TypedBid{
